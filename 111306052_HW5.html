@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Layout</title>
+    <style>
+        /* 保留原本樣式 */
+        body {
+            background-color: #eeede1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .main-container {
+            width: 900px;
+            display: flex;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        .left-panel, .right-panel {
+            padding: 20px;
+        }
+        .left-panel {
+            width: 330px;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .photo-panel {
+            width: 200px;
+            height: 200px;
+            background-image: url('images/Prankie.png'); /* Relative path */
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        .text-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+        }
+        .text-content p {
+            margin: 10px 0;
+        }
+        .text-content img {
+            width: 50px;
+        }
+        .right-panel {
+            width: 540px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .section {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .section h2 {
+            margin: 0;
+        }
+        .education .entry {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        .homework-list a {
+            text-decoration: none;
+            color: #007bff;
+            transition: color 0.3s;
+        }
+        .homework-list a:hover {
+            color: #0056b3;
+        }
+        .favorite-music {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .favorite-music img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+        .note {
+            font-size: 0.8rem;
+            color: #555;
+        }
+        .hidden {
+            display: none;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="left-panel">
+            <div class="photo-panel"></div>
+            <div class="text-content">
+                <div>
+                    <h3 id="nameHeader">EVAN</h3>
+                    <button id="editNameButton">Edit</button>
+                </div>
+                <div>
+                    <h3>About Me</h3>
+                    <p>Hello! I am a student at NCCU MIS. I love exploring technology and enjoy listening to music in my free time.</p>
+                </div>
+                <div>
+                    <h3>Contact Info</h3>
+                    <p>Email: evan1105.tu@gmail.com</p>
+                    <p>Phone: 0921775660</p>
+                </div>
+                <img src="images/政大校徽.png" alt="NCCU Icon"> <!-- Relative path -->
+            </div>
+        </div>
+        <div class="right-panel">
+            <div class="section education">
+                <h2>Education</h2>
+                <div class="entry">
+                    <span class="year">2021</span>
+                    <span class="description">Taipei Municipal Chenggong High School</span>
+                </div>
+                <div class="entry">
+                    <span class="year">Now</span>
+                    <span class="description">NCCU MIS</span>
+                </div>
+            </div>
+            <div class="section homework-list">
+                <h2>Homework List</h2>
+                <ul>
+                    <li><a href="https://github.com/tyi1105/HW1.git" target="_blank">Homework 1</a></li>
+                    <li><a href="https://github.com/tyi1105/111306052_-.git" target="_blank">Homework 2</a></li>
+                    <li><a href="https://github.com/tyi1105/HW3.git" target="_blank">Homework 3</a></li>
+                </ul>
+            </div>
+            <div class="section favorite-music">
+                <h2>Favorite Music</h2>
+                <div id="musicContainer">
+                    <div>
+                        <a href="https://youtu.be/DvTcUCeIJEc?si=c-q6rrm3lHpwm-RA" target="_blank">
+                            <img src="images/jay.jpg" alt="Album Cover 1">
+                        </a>
+                    </div>
+                </div>
+                <button id="addMusicButton">Add Music</button>
+            </div>
+            <div class="note">
+                These are my favorite songs because they inspire and motivate me every day.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Edit Name Functionality
+        const editNameButton = document.getElementById('editNameButton');
+        const nameHeader = document.getElementById('nameHeader');
+        let isEditing = false;
+
+        editNameButton.addEventListener('click', () => {
+            if (isEditing) {
+                const inputField = document.getElementById('nameInput');
+                if (inputField.value.trim() !== "") {
+                    nameHeader.textContent = inputField.value;
+                    editNameButton.textContent = "Edit";
+                }
+            } else {
+                const currentName = nameHeader.textContent;
+                nameHeader.innerHTML = `<input id="nameInput" type="text" value="${currentName}" />`;
+                editNameButton.textContent = "Save";
+            }
+            isEditing = !isEditing;
+        });
+
+        // Add Music Functionality
+        const addMusicButton = document.getElementById('addMusicButton');
+        const musicContainer = document.getElementById('musicContainer');
+
+        addMusicButton.addEventListener('click', () => {
+            const formContainer = document.createElement('div');
+            formContainer.classList.add('form-container');
+            formContainer.innerHTML = `
+                <input id="musicLink" type="text" placeholder="Enter music link" />
+                <input id="musicName" type="text" placeholder="Enter music name" />
+                <button id="submitMusic">Submit</button>
+                <p id="error" class="hidden" style="color: red;">Please fill out all fields!</p>
+            `;
+            musicContainer.appendChild(formContainer);
+
+            const submitMusicButton = formContainer.querySelector('#submitMusic');
+            submitMusicButton.addEventListener('click', () => {
+                const musicLink = formContainer.querySelector('#musicLink').value;
+                const musicName = formContainer.querySelector('#musicName').value;
+                const error = formContainer.querySelector('#error');
+
+                if (musicLink && musicName) {
+                    error.classList.add('hidden');
+                    const newMusicDiv = document.createElement('div');
+                    newMusicDiv.innerHTML = `
+                        <a href="${musicLink}" target="_blank">
+                            <img src="images/default.jpg" alt="${musicName}" title="${musicName}" />
+                        </a>
+                    `;
+                    musicContainer.appendChild(newMusicDiv);
+                    formContainer.remove(); // Remove form
+                } else {
+                    error.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
